@@ -2,6 +2,7 @@ import { Nav } from "@/components/nav";
 import { Hero } from "@/components/hero";
 import { LogoStrip } from "@/components/logo-strip";
 import { Features } from "@/components/features";
+import { FeatureTabs } from "@/components/feature-tabs";
 import { HowItWorks } from "@/components/how-it-works";
 import { Pricing } from "@/components/pricing";
 import { Testimonials } from "@/components/testimonials";
@@ -9,6 +10,8 @@ import { Faq } from "@/components/faq";
 import { FinalCta } from "@/components/final-cta";
 import { Footer } from "@/components/footer";
 import { ScrollMotion } from "@/components/scroll-motion";
+import { SectionReveal } from "@/components/section-reveal";
+import { PointerGlow } from "@/components/pointer-glow";
 import { site } from "@/config/site";
 
 export default function Home() {
@@ -35,6 +38,7 @@ export default function Home() {
         <LogoStrip />
         <Features />
         <HowItWorks />
+        <FeatureTabs />
         <Pricing />
         <Testimonials />
         <Faq />
@@ -42,6 +46,8 @@ export default function Home() {
       </main>
       <Footer />
       <ScrollMotion />
+      <SectionReveal />
+      <PointerGlow />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
 import { site } from "@/config/site";
+import { slideX, tweenNumber } from "@/lib/motion";
 import { Check } from "./icons";
 import { buttonClass } from "./ui/button";
 
@@ -16,32 +16,20 @@ export function Pricing() {
   const shown = useRef<number[]>(pricing.tiers.map((t) => t.monthly));
 
   useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const ctx = gsap.context(() => {
-      // Slide the toggle thumb.
-      gsap.to(thumbRef.current, {
-        xPercent: billing === "yearly" ? 100 : 0,
-        duration: reduce ? 0 : 0.45,
-        ease: "expo.out",
-      });
-      // Count each price to its new value so the change is easy to follow.
-      pricing.tiers.forEach((tier, i) => {
-        const el = priceRefs.current[i];
-        if (!el) return;
-        const to = billing === "yearly" ? tier.yearly : tier.monthly;
-        const state = { v: shown.current[i] };
-        gsap.to(state, {
-          v: to,
-          duration: reduce ? 0 : 0.6,
-          ease: "expo.out",
-          onUpdate: () => {
-            shown.current[i] = state.v;
-            el.textContent = String(Math.round(state.v));
-          },
-        });
-      });
+    // Slide the toggle thumb, then count each price to its new value so the change is easy to follow.
+    const stops = [slideX(thumbRef.current, billing === "yearly" ? 100 : 0)];
+    pricing.tiers.forEach((tier, i) => {
+      const el = priceRefs.current[i];
+      if (!el) return;
+      const to = billing === "yearly" ? tier.yearly : tier.monthly;
+      stops.push(
+        tweenNumber(shown.current[i], to, (v) => {
+          shown.current[i] = v;
+          el.textContent = String(Math.round(v));
+        }),
+      );
     });
-    return () => ctx.revert();
+    return () => stops.forEach((stop) => stop());
   }, [billing, pricing.tiers]);
 
   return (
@@ -60,7 +48,7 @@ export function Pricing() {
               <span
                 ref={thumbRef}
                 aria-hidden="true"
-                className="absolute inset-y-1 left-1 w-[calc(50%-0.25rem)] rounded-full bg-paper-raised shadow-[0_2px_8px_-2px_rgb(40_25_10/0.25)]"
+                className="absolute inset-y-1 left-1 w-[calc(50%-0.25rem)] rounded-full bg-ink"
               />
               {(["monthly", "yearly"] as const).map((b) => (
                 <button
@@ -69,7 +57,7 @@ export function Pricing() {
                   role="radio"
                   aria-checked={billing === b}
                   onClick={() => setBilling(b)}
-                  className={`relative z-10 min-w-28 rounded-full px-5 py-2 text-sm font-semibold capitalize transition-colors ${billing === b ? "text-ink" : "text-ink-faint hover:text-ink-soft"}`}
+                  className={`relative z-10 min-w-28 rounded-full px-5 py-2 text-sm font-semibold capitalize transition-colors ${billing === b ? "text-paper" : "text-ink-faint hover:text-ink-soft"}`}
                 >
                   {b}
                 </button>
@@ -85,8 +73,10 @@ export function Pricing() {
             return (
               <li
                 key={tier.name}
-                className={`flex flex-col rounded-[1.5rem] p-7 sm:p-8 ${hi ? "bg-panel text-on-panel shadow-[0_30px_60px_-34px_rgb(40_25_10/0.7)] lg:-my-4 lg:py-12" : "border border-rule bg-paper-raised"}`}
+                data-glow
+                className={`glow-card flex flex-col rounded-[1.5rem] p-7 sm:p-8 ${hi ? "bg-panel text-on-panel lg:-my-4 lg:py-12" : "bg-paper-sunk"}`}
               >
+                <span className="glow-spot" aria-hidden="true" />
                 <div className="flex items-baseline justify-between gap-4">
                   <h3 className="font-display text-2xl font-bold tracking-tight">{tier.name}</h3>
                   {hi && <span className="rounded-full bg-signal px-3 py-1 text-xs font-semibold text-on-signal">Most teams pick this</span>}

@@ -1,7 +1,8 @@
 # Leo's starter: SaaS landing page
 
 A landing page you can sell from, with a waitlist that actually stores signups.
-Built with Next.js (App Router), TypeScript, Tailwind CSS, GSAP and three.js.
+Built with Next.js (App Router), TypeScript, Tailwind CSS and three.js. No animation library:
+all other motion uses browser features.
 
 Leo's starters are free templates from [Replore](https://replore.cardzo.co.in), a Cardzo product
 that helps you find open source GitHub repos for what you are building.
@@ -12,11 +13,27 @@ that helps you find open source GitHub repos for what you are building.
 | --- | --- |
 | ![Desktop, dark theme](docs/desktop-dark.png) | ![Phone, light theme](docs/phone-light.png) |
 
+| Pinned product story | Product tour tabs | Quotes marquee |
+| --- | --- | --- |
+| ![How it works, pinned story](docs/desktop-light-story.png) | ![Product tour](docs/desktop-light-tour.png) | ![Quotes](docs/desktop-light-quotes.png) |
+
 ## What you get
 
-- Sections: navigation, hero with a working signup form, logo strip (placeholder marks),
-  features, how it works, pricing with three tiers and a monthly and yearly toggle,
-  testimonials (clearly marked placeholders), FAQ, final call to action and footer.
+- Sections: navigation, hero with a working signup form, a logo marquee (placeholder marks),
+  features, a pinned product story ("how it works"), a product tour with tabs, pricing with
+  three tiers and a monthly and yearly toggle, testimonials with a moving quote row (clearly
+  marked placeholders), FAQ, final call to action and footer.
+- **Pinned product story:** on wide screens a product window stays in place while the three
+  steps scroll past, and each step swaps the screen. On phones each step shows its own screen.
+  Plain IntersectionObserver and CSS, no scroll hijacking.
+- **Product tour tabs:** the accessible tabs pattern (arrow keys, Home, End). Clicking a tab
+  cross-fades the panel; switching with the keyboard is instant.
+- **Marquees** for the logos and short quotes, in CSS only. They pause on hover and focus and
+  stop and wrap with reduced motion.
+- **Cursor-follow glow** on the pricing cards and the tour preview, on mouse and trackpad only.
+- **Section transitions:** headings, the feature list and the pricing cards rise in as they
+  arrive, the nav highlights the section you are reading, and switching theme grows the new
+  theme out of the toggle (View Transitions API, where supported).
 - A working waitlist: the form posts to `/api/waitlist`, which validates the email, rejects
   bots with a hidden honeypot field, limits each visitor to 5 attempts per 10 minutes, saves
   the signup and shows a success or error message.
@@ -28,10 +45,10 @@ that helps you find open source GitHub repos for what you are building.
   scroll. It loads after the page is idle, caps the pixel ratio, stops rendering when off
   screen or in a background tab, and shows a still drawing instead when WebGL is missing or
   the visitor prefers reduced motion.
-- GSAP motion: a hero intro, a features list that arrives as a list, a progress track through
-  the how it works steps that follows your scroll, pricing tiers that unmask, and prices that
-  count to their new value when you switch billing. All of it is skipped under reduced motion,
-  and content is visible even if JavaScript fails.
+- Motion with browser features only: a hero intro (Web Animations API), a features list that
+  arrives as a list and pricing tiers that unmask (CSS transitions started by
+  IntersectionObserver), and prices that count to their new value when you switch billing. All
+  of it is skipped under reduced motion, and content is visible even if JavaScript fails.
 - Search basics: title and description metadata, a generated Open Graph image
   (`/opengraph-image`), `sitemap.xml`, `robots.txt`, JSON-LD for the product, a skip link and
   real heading order.
@@ -60,7 +77,7 @@ npm run typecheck
 ## Make it yours
 
 1. Edit `src/config/site.ts`. Every word on the page comes from there.
-2. Change colours in `src/app/globals.css`. The `:root` block is the light theme and the
+2. Change colours and motion in `src/app/globals.css`. The `:root` block is the light theme and the
    `.dark` block is the dark theme. Components only use role names such as `paper`, `ink` and
    `signal`, so changing a value there updates the whole page.
 3. Change fonts in `src/app/layout.tsx` (any font from `next/font/google`).
@@ -150,12 +167,43 @@ src/
   lib/                      waitlist store, rate limit, validation
 ```
 
+## Safe AI coding with Governor
+
+This template comes with [Governor](https://github.com/chittychat-studio/Governance-manager)
+pre-installed: a safety kit for AI coding agents in Claude Code (and advisory rules for Codex).
+
+**What it does.** When you open this folder in Claude Code, Governor's rules stop the agent from
+reading secret files such as `.env.local`, wiping folders with `rm -rf` or `Remove-Item -Recurse
+-Force`, force-pushing, piping downloaded scripts into a shell, or switching its own safety off.
+It asks you before production deploys (`vercel --prod` and friends), package installs, web
+fetches and commands that call paid AI services, it scans every file the agent writes for API
+keys (including server secrets put in `NEXT_PUBLIC_` variables), and it will not let the agent
+say "done" while `npm run typecheck` fails. This template is set to tier 3, the strictest,
+because the waitlist collects email addresses on a public page. Every rule is listed, as
+enforced or advisory, in `.claude/governor/COVERAGE.md`.
+
+**What was added:** `governance.yaml` (the answers and the tier), `.claude/settings.json`,
+`.claude/hooks/` (small Python scripts, standard library only), `.claude/rules/governor.md` and a
+marked block in `CLAUDE.md` and `AGENTS.md`. None of it is part of the Next.js build. The hooks
+need Python 3.11 or newer. After cloning, restart Claude Code once so the hooks load.
+
+**Refresh it** when your project changes (logins, a database, payments, a real test suite):
+install the plugin with `/plugin marketplace add chittychat-studio/Governance-manager` and
+`/plugin install governor@chittychat-governor`, then run `/governor:init` in this folder.
+`/governor:status` shows what is blocked and what needs your OK.
+
+**Remove it:** run `/governor:remove`. It shows what would be removed and prints a command for you
+to run yourself in a terminal outside Claude Code (the agent is not allowed to remove its own
+guardrails). Without the plugin, delete `governance.yaml`, the `.claude/` folder and the
+`<!-- governor:start -->` to `<!-- governor:end -->` blocks in `CLAUDE.md` and `AGENTS.md`.
+
 ## Licence and credits
 
 MIT, Copyright (c) 2026 Cardzo. See `LICENSE`.
 
-GSAP is free for commercial use but uses its own licence, not MIT. Read `NOTICE.md` before you
-sell a site or template built on this, and see there how to remove GSAP if you need a pure MIT
-stack. three.js, Next.js, React and Tailwind CSS are MIT. Structure was informed by
+three.js, Next.js, React and Tailwind CSS are MIT, and so is Governor (the AI coding
+guardrails). There is no animation library: motion uses the Web Animations API, CSS transitions
+and the View Transitions API, so the whole stack is MIT. Structure was informed by
 nextjs/saas-starter, ixartz/SaaS-Boilerplate and Blazity/next-saas-starter (all MIT, no code
-copied). Design rules follow pbakaus/impeccable (Apache-2.0).
+copied). Design and motion guidance came from Impeccable (Apache-2.0), Emil Kowalski's skills
+(MIT) and taste-skill (MIT), with no files included. See `NOTICE.md`.

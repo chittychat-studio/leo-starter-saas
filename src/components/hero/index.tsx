@@ -12,9 +12,9 @@ export function Hero() {
             id="hero-title"
             className="font-display text-[clamp(2.9rem,8.4vw,6rem)] font-extrabold leading-[0.95] tracking-[-0.035em] lg:w-[54rem]"
           >
-            {hero.headline.map((line, i) => (
+            {hero.headline.map((line) => (
               <span key={line} className="block overflow-hidden pb-[0.06em]">
-                <span data-hero="line" className={`block ${i === 1 ? "text-signal-ink" : ""}`}>
+                <span data-hero="line" className="block">
                   {line}
                 </span>
               </span>
@@ -50,11 +50,12 @@ function DraftCard() {
   return (
     <figure
       data-hero="card"
-      className="absolute bottom-2 right-0 z-10 w-[min(100%,20rem)] rounded-2xl bg-paper-raised/95 p-5 shadow-[0_24px_50px_-28px_rgb(40_25_10/0.55)] ring-1 ring-rule sm:bottom-6 lg:bottom-16"
+      data-ui
+      className="absolute bottom-2 right-0 z-10 w-[min(100%,20rem)] rounded-2xl bg-paper-raised/95 p-5 float-card ring-1 ring-rule sm:bottom-6 lg:bottom-16"
     >
       <figcaption className="flex items-center justify-between text-sm text-ink-faint">
         <span className="font-semibold text-ink">Draft for Friday</span>
-        <span className="font-mono text-xs">Week 42</span>
+        <span className="tabular text-xs">Week 42</span>
       </figcaption>
       <ul className="mt-3 space-y-2 text-[0.95rem] leading-snug">
         <li>Shipped the new billing page to all teams.</li>

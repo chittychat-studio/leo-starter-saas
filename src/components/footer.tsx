@@ -28,7 +28,7 @@ export function Footer() {
           </nav>
         ))}
       </div>
-      <div className="mt-12 flex flex-col gap-2 border-t border-rule pt-6 text-sm text-ink-faint sm:flex-row sm:justify-between">
+      <div className="mt-12 flex flex-col gap-2 text-sm text-ink-faint sm:flex-row sm:justify-between">
         <p>
           &copy; {new Date().getFullYear()} {site.name}. All rights reserved.
         </p>

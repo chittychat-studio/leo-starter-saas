@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Hanken_Grotesk } from "next/font/google";
 import { site } from "@/config/site";
 import "./globals.css";
 
@@ -15,12 +15,6 @@ const hanken = Hanken_Grotesk({
   variable: "--font-hanken",
   display: "swap",
   weight: ["400", "500", "600"],
-});
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  variable: "--font-plex-mono",
-  display: "swap",
-  weight: ["500"],
 });
 
 export const metadata: Metadata = {
@@ -45,7 +39,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f7f3ec" },
+    { media: "(prefers-color-scheme: light)", color: "#f6f5f2" },
     { media: "(prefers-color-scheme: dark)", color: "#1a1612" },
   ],
 };
@@ -58,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${bricolage.variable} ${hanken.variable} ${plexMono.variable}`}
+      className={`${bricolage.variable} ${hanken.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />

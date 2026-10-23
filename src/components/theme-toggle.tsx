@@ -13,14 +13,29 @@ const getServerSnapshot = () => false;
 export function ThemeToggle() {
   const dark = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
-  function toggle() {
+  function toggle(e: React.MouseEvent<HTMLButtonElement>) {
     const next = !dark;
-    document.documentElement.classList.toggle("dark", next);
-    try {
-      localStorage.setItem("theme", next ? "dark" : "light");
-    } catch {
-      /* private mode: the choice lasts for this visit only */
+    const apply = () => {
+      document.documentElement.classList.toggle("dark", next);
+      try {
+        localStorage.setItem("theme", next ? "dark" : "light");
+      } catch {
+        /* private mode: the choice lasts for this visit only */
+      }
+    };
+    // Where the browser supports view transitions, the new theme grows out of the button.
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!document.startViewTransition || reduce) {
+      apply();
+      return;
     }
+    const box = e.currentTarget.getBoundingClientRect();
+    const root = document.documentElement;
+    root.style.setProperty("--vt-x", `${box.left + box.width / 2}px`);
+    root.style.setProperty("--vt-y", `${box.top + box.height / 2}px`);
+    root.classList.add("theme-vt");
+    const vt = document.startViewTransition(apply);
+    vt.finished.finally(() => root.classList.remove("theme-vt"));
   }
 
   return (

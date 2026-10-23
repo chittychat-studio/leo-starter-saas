@@ -13,6 +13,23 @@ export type Feature = {
   icon: IconName;
 };
 
+/** One screen of the pinned product story. Shown while its step is in view. */
+export type StoryScreen = {
+  title: string;
+  status: string;
+  lines: string[];
+};
+
+export type TourTab = {
+  /** Short, lowercase, no spaces. Used for the tab ids. */
+  id: string;
+  label: string;
+  title: string;
+  body: string;
+  points: string[];
+  preview: { caption: string; rows: { label: string; value: string }[] };
+};
+
 export type Tier = {
   name: string;
   /** Price per month when billed monthly. Use 0 for a free tier. */
@@ -41,6 +58,7 @@ export const site = {
   nav: [
     { label: "Features", href: "#features" },
     { label: "How it works", href: "#how" },
+    { label: "Tour", href: "#tour" },
     { label: "Pricing", href: "#pricing" },
     { label: "FAQ", href: "#faq" },
   ],
@@ -55,7 +73,7 @@ export const site = {
   },
 
   logos: {
-    caption: "Placeholder logos. Swap in the teams that use your product.",
+    caption: "Placeholder logos. Swap in the teams that use your product. The row pauses when you hover or focus it.",
     names: ["Logo one", "Logo two", "Logo three", "Logo four", "Logo five", "Logo six"],
   },
 
@@ -99,20 +117,92 @@ export const site = {
 
   how: {
     heading: "From scattered work to a sent update",
+    intro: "Scroll through one week. The screen on the left follows along.",
     steps: [
       {
         title: "Connect your tools",
         body: "Sign in with your repo host and tracker. Read only access, revocable at any time.",
+        screen: {
+          title: "Connections",
+          status: "2 of 2 connected",
+          lines: ["Code host: read only", "Issue tracker: read only", "Calendar: optional, off"],
+        },
       },
       {
         title: "Get a draft on Friday",
         body: "Signalpost writes five lines from your week and flags anything it was unsure about.",
+        screen: {
+          title: "Draft for Friday",
+          status: "Ready, 1 line to check",
+          lines: [
+            "Shipped the new billing page to all teams.",
+            "Fixed the export bug three customers reported.",
+            "Check: was the search spike resolved?",
+          ],
+        },
       },
       {
         title: "Review and send",
         body: "Fix a word, add context, press send. Your team gets one tidy update.",
+        screen: {
+          title: "Sent to Team Atlas",
+          status: "Delivered to email and chat",
+          lines: ["5 lines, 2 links to tickets", "Read by 7 people", "Next draft: Friday at 9:00"],
+        },
       },
-    ],
+    ] satisfies { title: string; body: string; screen: StoryScreen }[],
+  },
+
+  tour: {
+    heading: "A closer look",
+    intro: "Pick a part of the product. Use the arrow keys to move between tabs.",
+    tabs: [
+      {
+        id: "drafts",
+        label: "Drafts",
+        title: "Drafts that cite their sources",
+        body: "Every line in a draft links back to the commit, ticket or meeting it came from, so reviewers can check it in one click.",
+        points: ["Grouped by project", "Unsure lines are flagged", "Edit in place"],
+        preview: {
+          caption: "Draft, week 42",
+          rows: [
+            { label: "Billing page shipped", value: "3 commits" },
+            { label: "Export bug fixed", value: "1 ticket" },
+            { label: "Search spike", value: "Check" },
+          ],
+        },
+      },
+      {
+        id: "rollups",
+        label: "Roll ups",
+        title: "One page for the whole team",
+        body: "Individual drafts roll up into a single team summary. Managers read one page instead of twelve.",
+        points: ["Per team and cross team", "Highlights first", "Links to each person's notes"],
+        preview: {
+          caption: "Team Atlas, week 42",
+          rows: [
+            { label: "Updates in", value: "6 of 7" },
+            { label: "Shipped", value: "4 items" },
+            { label: "Blocked", value: "1 item" },
+          ],
+        },
+      },
+      {
+        id: "delivery",
+        label: "Delivery",
+        title: "Sends where people already read",
+        body: "Post to email, a chat channel or a shared page. Choose per team and change it whenever you like.",
+        points: ["Email, chat or a page", "Quiet hours respected", "Read receipts, opt in"],
+        preview: {
+          caption: "Delivery settings",
+          rows: [
+            { label: "Email", value: "On" },
+            { label: "Chat channel", value: "#atlas" },
+            { label: "Shared page", value: "Off" },
+          ],
+        },
+      },
+    ] satisfies TourTab[],
   },
 
   pricing: {
@@ -161,6 +251,15 @@ export const site = {
 
   testimonials: {
     heading: "What early users say",
+    /** Short lines for the moving quote row. Replace with real, permitted quotes. */
+    marquee: [
+      "Placeholder: standup got shorter.",
+      "Placeholder: I finally read the team update.",
+      "Placeholder: the links back to tickets save me an hour.",
+      "Placeholder: setup took five minutes.",
+      "Placeholder: no more Sunday night status writing.",
+      "Placeholder: our manager stopped asking for reports.",
+    ],
     disclaimer: "Placeholder quotes. Replace them with real, permitted quotes before you launch.",
     items: [
       {

@@ -3,11 +3,11 @@ import Link from "next/link";
 type Variant = "primary" | "ink" | "ghost";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-[0.95rem] font-semibold transition-[background-color,color,box-shadow,transform] duration-200 ease-[var(--ease-out-expo)] active:translate-y-px disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-[0.95rem] font-semibold transition-[background-color,color,box-shadow,transform] duration-200 ease-[var(--ease-out-expo)] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-60";
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-signal text-on-signal shadow-[0_6px_18px_-8px_var(--signal)] hover:shadow-[0_10px_26px_-10px_var(--signal)] hover:brightness-105",
+    "bg-signal text-on-signal hover:brightness-105",
   ink: "bg-ink text-paper hover:bg-ink-soft",
   ghost: "text-ink hover:bg-paper-sunk",
 };

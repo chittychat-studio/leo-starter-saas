@@ -1,17 +1,22 @@
 {
   "name": "saas-landing",
   "title": "Leo's starter: SaaS landing page",
-  "description": "A landing page you can sell from: hero with a 3D signal field, features, how it works, pricing with a monthly and yearly toggle, testimonials, FAQ and a working waitlist. All copy lives in one config file.",
-  "stack": ["Next.js 16 (App Router)", "TypeScript", "Tailwind CSS 4", "GSAP 3 with ScrollTrigger", "three.js"],
+  "description": "A studio-grade landing page you can sell from: three.js hero, pinned product story, product tour tabs, logo and quote marquees, pricing with a monthly and yearly toggle, FAQ and a working waitlist. All copy lives in one config file.",
+  "version": "2.0.0",
+  "stack": ["Next.js 16 (App Router)", "TypeScript", "Tailwind CSS 4", "three.js", "Web Animations API, CSS transitions and View Transitions (no animation library)"],
   "features": [
     "Working waitlist: POST /api/waitlist with validation, honeypot and rate limiting",
     "Signups saved to data/waitlist.json, optional webhook forwarding via WAITLIST_WEBHOOK_URL",
-    "All copy, pricing and links in src/config/site.ts",
-    "Light and dark theme with no flash, follows the system by default",
+    "All copy, pricing, story screens and tour tabs in src/config/site.ts",
     "Lazy loaded three.js hero that reacts to pointer and scroll, pauses off screen, static fallback",
-    "GSAP hero intro, scroll driven reveals and an animated pricing toggle",
-    "Reduced motion respected everywhere",
-    "Metadata, generated Open Graph image, sitemap.xml and robots.txt"
+    "Pinned product story: the product window swaps screens as the steps scroll past",
+    "Product tour with accessible tabs (arrow keys, Home, End)",
+    "Logo and quote marquees in CSS, paused on hover and focus",
+    "Cursor-follow glow on cards, pointer devices only",
+    "Section transitions, nav scroll-spy and a view-transition theme switch",
+    "Light and dark theme with no flash; reduced motion respected everywhere",
+    "Metadata, generated Open Graph image, sitemap.xml and robots.txt",
+    "Governor pre-installed: AI coding guardrails for Claude Code (tier 3)"
   ],
   "demo": {
     "install": "npm install",
@@ -19,6 +24,7 @@
     "open": "http://localhost:3000",
     "try": "Enter an email in the hero form and press Join the waitlist. The signup appears in data/waitlist.json."
   },
+  "governor": { "tier": 3, "testCommand": "npm run typecheck", "refresh": "/governor:init", "remove": "/governor:remove" },
   "license": "MIT",
-  "thirdPartyNotes": "gsap uses the GSAP Standard No Charge License, not MIT. See NOTICE.md."
+  "thirdPartyNotes": "All runtime dependencies are MIT; fonts are OFL 1.1; Governor is MIT. See NOTICE.md."
 }

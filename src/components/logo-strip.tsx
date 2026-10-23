@@ -1,4 +1,5 @@
 import { site } from "@/config/site";
+import { Marquee } from "./marquee";
 
 /** Six neutral placeholder marks. Replace with real SVG logos you have permission to show. */
 const shapes = [
@@ -11,20 +12,19 @@ const shapes = [
 ];
 
 export function LogoStrip() {
+  const logos = site.logos.names.map((name, i) => (
+    <span key={name} className="flex items-center gap-2.5 whitespace-nowrap text-ink-faint">
+      <svg viewBox="0 0 24 24" className="size-6 shrink-0" fill="currentColor" aria-hidden="true">
+        {shapes[i % shapes.length]}
+      </svg>
+      <span className="font-display text-lg font-bold tracking-tight">{name}</span>
+    </span>
+  ));
   return (
-    <section aria-label="Customer logos" className="border-y border-rule">
-      <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8">
-        <ul className="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3 lg:grid-cols-6">
-          {site.logos.names.map((name, i) => (
-            <li key={name} className="flex items-center gap-2.5 text-ink-faint">
-              <svg viewBox="0 0 24 24" className="size-6 shrink-0" fill="currentColor" aria-hidden="true">
-                {shapes[i % shapes.length]}
-              </svg>
-              <span className="font-display text-lg font-bold tracking-tight">{name}</span>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-5 text-sm text-ink-faint">{site.logos.caption}</p>
+    <section aria-label="Customer logos" className="bg-paper-sunk">
+      <div className="py-8">
+        <Marquee items={logos} label="Customer logos" seconds={36} className="marquee-fade" />
+        <p className="mx-auto mt-5 max-w-6xl px-5 text-sm text-ink-faint sm:px-8">{site.logos.caption}</p>
       </div>
     </section>
   );

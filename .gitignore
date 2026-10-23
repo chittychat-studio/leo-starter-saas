@@ -1,0 +1,26 @@
+# dependencies
+node_modules/
+
+# next.js build output
+.next/
+out/
+build/
+next-env.d.ts
+*.tsbuildinfo
+
+# local waitlist data (signups are personal data, never commit them)
+data/
+
+# env files (keep .env.example)
+.env
+.env.*
+!.env.example
+
+# logs and OS files
+npm-debug.log*
+*.log
+.DS_Store
+Thumbs.db
+.vercel
+.open-next
+.wrangler

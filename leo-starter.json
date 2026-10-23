@@ -1,0 +1,24 @@
+{
+  "name": "saas-landing",
+  "title": "Leo's starter: SaaS landing page",
+  "description": "A landing page you can sell from: hero with a 3D signal field, features, how it works, pricing with a monthly and yearly toggle, testimonials, FAQ and a working waitlist. All copy lives in one config file.",
+  "stack": ["Next.js 16 (App Router)", "TypeScript", "Tailwind CSS 4", "GSAP 3 with ScrollTrigger", "three.js"],
+  "features": [
+    "Working waitlist: POST /api/waitlist with validation, honeypot and rate limiting",
+    "Signups saved to data/waitlist.json, optional webhook forwarding via WAITLIST_WEBHOOK_URL",
+    "All copy, pricing and links in src/config/site.ts",
+    "Light and dark theme with no flash, follows the system by default",
+    "Lazy loaded three.js hero that reacts to pointer and scroll, pauses off screen, static fallback",
+    "GSAP hero intro, scroll driven reveals and an animated pricing toggle",
+    "Reduced motion respected everywhere",
+    "Metadata, generated Open Graph image, sitemap.xml and robots.txt"
+  ],
+  "demo": {
+    "install": "npm install",
+    "run": "npm run dev",
+    "open": "http://localhost:3000",
+    "try": "Enter an email in the hero form and press Join the waitlist. The signup appears in data/waitlist.json."
+  },
+  "license": "MIT",
+  "thirdPartyNotes": "gsap uses the GSAP Standard No Charge License, not MIT. See NOTICE.md."
+}
